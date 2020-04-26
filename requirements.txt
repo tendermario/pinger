@@ -1,0 +1,3 @@
+# The aws cli agent
+awscli
+boto3
