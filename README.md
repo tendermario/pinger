@@ -2,7 +2,7 @@
 
 A tool to test what route is slow.
 
-## For a simple ms output
+## For a simple output in ms
 
 Just run:
 
