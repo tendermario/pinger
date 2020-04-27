@@ -37,6 +37,9 @@ _(Note this is only tested with a Mac system for now...)_
      #!/Users/marioviens/coding/projects/pinger/.venv/bin/python
     ```
 
-- Copy the file to your launch daemons folder, on a Mac it's: `/Library/LaunchDaemons/`
+- Copy the .plist file to your launch daemons folder and replace <path> with the path to your pinger.py executable. On a Mac the loanch daemon folder is: `/Library/LaunchDaemons/`
+- Add the file to the launchctl registry `launchctl load -w /Library/LaunchDaemons/pinger.plist`
+- (Still trying to figure out) enable this and confirm it runs successfully on system start... `sudo launchctl enable system/com.pinger.tendermario`
+
 
 MIT License.
