@@ -8,7 +8,7 @@
   <string>com.pinger.tendermario</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/<path>/pinger.sh</string>
+    <string>/<path>/ping.py</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
