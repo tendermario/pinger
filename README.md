@@ -7,7 +7,7 @@ A tool to test what route is slow.
 Just run:
 
 ```
-./pinger.sh
+./shell-ping/pinger.sh
 ```
 
 ## To send data to CloudWatch and automatically monitor your system
