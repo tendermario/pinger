@@ -1,16 +1,18 @@
-#!/usr/bin/env python3
+#!/Users/marioviens/coding/projects/pinger/.venv/bin/python
 
 import time
 import subprocess
 import platform
 import re
+import sys
 
 import boto3
 
+PRINT_PING = True # Update me to True to print the ms to output
 
 URL = 'www.google.ca'
 operating_sys = platform.system()
-logs = boto3.client('logs')
+logsClient = boto3.client('logs')
 logGroupName = 'shaw_ping'
 logStreamName = 'personal_macbook'
 
@@ -24,19 +26,32 @@ def ping(ip):
     time = message[index+5:endIndex]
     return time
 
-sequenceToken = '1'
+def getSequenceToken():
+    response = logsClient.describe_log_streams(
+        logGroupName=logGroupName,
+        logStreamNamePrefix=logStreamName
+    )
+    return response['logStreams'][0]['uploadSequenceToken']
 
-print("Checking ping every second and sending it to cloudwatch")
+
+# Get the sequence token to upload to CloudWatch
+sequenceToken = getSequenceToken()
+
+print("Checking ping every second and sending it to CloudWatch")
+
+if (PRINT_PING):
+        print("Printing ping (in ms)")
+
 while(True):
     # Get ping in ms
     ping_time = ping(URL)
     timestamp = int(round(time.time() * 1000))
-    # COMMENT IN FOR PING
-    #print(ping_time)
+    if (PRINT_PING):
+        print(ping_time)
 
     # Send data to cloudwatch
     try:
-        response = logs.put_log_events(
+        response = logsClient.put_log_events(
             logGroupName='shaw_ping',
             logStreamName='personal_macbook',
             logEvents=[
@@ -49,10 +64,11 @@ while(True):
         )
         sequenceToken = response['nextSequenceToken']
     except Exception as e:
-        print("Warning: could not post to CloudWatch")
+        print("Warning: could not post to CloudWatch. Will naively try with a new token...")
         message = e.response['Error']['Message']
         index = message.find('is:')
         sequenceToken = message[index+4:]
+
 
     time.sleep(1)
 
