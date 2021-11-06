@@ -1,3 +1,8 @@
+# Pull in environment variables - we use $CODE_PATH
+set -o allexport
+source .env
+set +o allexport
+
 # If process ID exists for previous invocations of this command, check for it and kill it.
 PID_FILE=/tmp/pinger.pid
 if [ -f "$PID_FILE" ]; then

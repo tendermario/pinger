@@ -5,17 +5,22 @@ import subprocess
 import platform
 import re
 import sys
+import os
 
 import boto3
+from dotenv import load_dotenv
 
-PRINT_PING = True # Update me to True to print the ms to output
+load_dotenv()
 
-URL = 'www.google.ca'
+URL = os.getenv('URL')
+LOG_GROUP_NAME = os.getenv('LOG_GROUP_NAME')
+LOG_STREAM_NAME = os.getenv('LOG_STREAM_NAME')
+# PRINT_PING will print ms to output if True
+# In the .env file, make this be any string to be True. If left blank, it will be False.
+PRINT_PING = bool(os.getenv('PRINT_PING'))
+
 operating_sys = platform.system()
 logsClient = boto3.client('logs')
-logGroupName = 'shaw_ping'
-logStreamName = 'personal_macbook'
-
 
 def ping(ip):
     ping_command = ['ping', ip, '-c 1']
@@ -28,8 +33,8 @@ def ping(ip):
 
 def getSequenceToken():
     response = logsClient.describe_log_streams(
-        logGroupName=logGroupName,
-        logStreamNamePrefix=logStreamName
+        logGroupName=LOG_GROUP_NAME,
+        logStreamNamePrefix=LOG_STREAM_NAME
     )
     return response['logStreams'][0]['uploadSequenceToken']
 
@@ -52,8 +57,8 @@ while(True):
     # Send data to cloudwatch
     try:
         response = logsClient.put_log_events(
-            logGroupName='shaw_ping',
-            logStreamName='personal_macbook',
+            logGroupName=LOG_GROUP_NAME,
+            logStreamName=LOG_STREAM_NAME,
             logEvents=[
                 {
                     'timestamp': timestamp,

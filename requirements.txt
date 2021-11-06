@@ -1,3 +1,4 @@
 # The aws cli agent
 awscli
 boto3
+python-dotenv
