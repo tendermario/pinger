@@ -1,2 +1,4 @@
 ping-data/*
 .venv
+.env
+nohup.out
