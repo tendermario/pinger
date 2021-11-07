@@ -29,22 +29,38 @@ _(Note this is only tested with a Mac system for now...)_
 
 ## To enable it at startup
 
+(Still in progress, the plist file doesn't seem to invoke, PLEASE HELP)
+
 - Run your virtualenv python in the hashbang:
 -   Run `which python` while in your virtualenv
 -   Update the first line in `ping.py` to it so it looks like something like:
 
-    ```
-     #!/Users/marioviens/coding/projects/pinger/.venv/bin/python
-    ```
+```
+#!/Users/marioviens/coding/projects/pinger/.venv/bin/python
+```
 
 - Copy the .plist file to your launch daemons folder and replace <path> with the path to your pinger.py executable. On a Mac the loanch daemon folder is: `/Library/LaunchDaemons/`
 - Add the file to the launchctl registry `launchctl load -w /Library/LaunchDaemons/pinger.plist`
 - (Still trying to figure out) enable this and confirm it runs successfully on system start... `sudo launchctl enable system/com.pinger.tendermario`
-    
-    
+
+## To run on terminal window launch
+
+This is a workaround to the above for now: when you open terminal, it runs this shell script and puts
+it in the background. You can close the terminal and theoretically the process should be running in the background. (TEST THIS PLS)
+
+- Add running the `ping.sh` in your dot
+
+
+## TO INVESTIGATE
+
+how to translate this into data:
+
+`2021-11-05T22:38:20.695-07:00	NG www.google.ca (142.250.217.99): 56 data bytes\n\n--- www.google.ca ping statistics ---\n1 packets transmitted, 0 packets received, 100.0% packet loss\n`
+
+I think it 
+
 ## Example
 
 ![Example](docs/example.png "Example Dashboard")
-
 
 MIT License.

@@ -1,4 +1,4 @@
-# Pull in environment variables - we use $CODE_PATH
+# Pull in environment variables - we use $CODE_PATH here
 set -o allexport
 source .env
 set +o allexport
@@ -12,7 +12,7 @@ if [ -f "$PID_FILE" ]; then
 fi
 
 # If we have CODE_PATH set in our environment, use this as the path to the repo's executable
-if ($CODE_PATH) then
+if [ -d "$CODE_PATH" ]; then
   nohup $CODE_PATH/pinger/ping.py &
 else
   # Otherwise, assume it's in the flat directory '~/code'

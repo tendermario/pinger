@@ -38,6 +38,10 @@ def getSequenceToken():
     )
     return response['logStreams'][0]['uploadSequenceToken']
 
+def writeToLocalLogs(ping):
+    f = open("ping-data/2021-10-pinglog.txt", "a")
+    f.write(ping + "\n")
+    f.close()
 
 # Get the sequence token to upload to CloudWatch
 sequenceToken = getSequenceToken()
@@ -50,6 +54,7 @@ if (PRINT_PING):
 while(True):
     # Get ping in ms
     ping_time = ping(URL)
+    writeToLocalLogs(ping_time)
     timestamp = int(round(time.time() * 1000))
     if (PRINT_PING):
         print(ping_time)
