@@ -48,7 +48,15 @@ _(Note this is only tested with a Mac system for now...)_
 This is a workaround to the above for now: when you open terminal, it runs this shell script and puts
 it in the background. You can close the terminal and theoretically the process should be running in the background. (TEST THIS PLS)
 
-- Add running the `ping.sh` in your dot
+- Add running the `ping.sh` in your dotfile:
+
+```
+ . ~/coding/projects/pinger/.venv/bin/activate
+ cd ~/coding/projects/pinger
+ ./ping.sh
+ cd -
+ deactivate
+```
 
 
 ## TO INVESTIGATE
@@ -57,7 +65,9 @@ how to translate this into data:
 
 `2021-11-05T22:38:20.695-07:00	NG www.google.ca (142.250.217.99): 56 data bytes\n\n--- www.google.ca ping statistics ---\n1 packets transmitted, 0 packets received, 100.0% packet loss\n`
 
-I think it 
+I'm currently using a metric filter to catch these for now and treat it as a full disconnect for that second.
+
+I could alternatively send this data directly from the ping command like "1000" or "timeout".
 
 ## Example
 
