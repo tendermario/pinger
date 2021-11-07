@@ -1,13 +1,15 @@
 # Pinger
 
-A tool to test what route is slow.
+A python tool to test what route is slow.
+
+The `ping.sh` file invokes the `ping.py` and allows successive runs to kill the old process.
 
 ## For a simple output in ms
 
 Just run:
 
 ```
-./shell-ping/pinger.sh
+./shell-ping/ping.sh
 ```
 
 ## To send data to CloudWatch and automatically monitor your system
@@ -46,7 +48,7 @@ _(Note this is only tested with a Mac system for now...)_
 ## To run on terminal window launch
 
 This is a workaround to the above for now: when you open terminal, it runs this shell script and puts
-it in the background. You can close the terminal and theoretically the process should be running in the background. (TEST THIS PLS)
+it in the background. You can close the terminal and theoretically the process should be running in the background.
 
 - Add running the `ping.sh` in your dotfile:
 
@@ -59,9 +61,28 @@ it in the background. You can close the terminal and theoretically the process s
 ```
 
 
-## TO INVESTIGATE
+## TODO:
 
-how to translate this into data:
+### Check each step of the hop
+
+We currently use `ping google.ca -c1` to test all the way to google. Instead, we could use `traceroute -q 1 google.ca` to test each hop, e.g.:
+
+```
+➜  pinger git:(master) traceroute -q 1 google.ca;
+traceroute to google.ca (142.251.33.99), 64 hops max, 52 byte packets
+ 1  hitronhub.home (192.168.0.1)  3.300 ms
+ 2  70.66.160.1 (70.66.160.1)  11.541 ms
+ 3  rd2bb-be106-1.no.shawcable.net (64.59.161.213)  12.273 ms
+ 4  rc1wt-be40.wa.shawcable.net (66.163.68.18)  31.698 ms
+ 5  72.14.221.102 (72.14.221.102)  23.980 ms
+ 6  74.125.243.193 (74.125.243.193)  47.029 ms
+ 7  142.251.50.177 (142.251.50.177)  31.671 ms
+ 8  sea30s10-in-f3.1e100.net (142.251.33.99)  27.357 ms
+ ```
+
+ Gives more details on every single step. We could see what's the weakest link (I'm looking at you Shaw), and isolate it to be the last mile (step 2), your connection to your route (step 1), the internet highway (steps 3-7 or so), or the endpoint (step 8 or so).
+
+### Handle bad packets better
 
 `2021-11-05T22:38:20.695-07:00	NG www.google.ca (142.250.217.99): 56 data bytes\n\n--- www.google.ca ping statistics ---\n1 packets transmitted, 0 packets received, 100.0% packet loss\n`
 
