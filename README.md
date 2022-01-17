@@ -92,6 +92,6 @@ I could alternatively send this data directly from the ping command like "1000" 
 
 ## Example
 
-![Example](docs/example-pinger.png "Example Dashboard")
+![Example](docs/example-pinger.jpg "Example Dashboard")
 
 MIT License.
