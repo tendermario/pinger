@@ -48,15 +48,15 @@ sequenceToken = getSequenceToken()
 
 print("Checking ping every second and sending it to CloudWatch")
 
-if (PRINT_PING):
+if PRINT_PING:
         print("Printing ping (in ms)")
 
-while(True):
+while True:
     # Get ping in ms
     ping_time = ping(URL)
     writeToLocalLogs(ping_time)
     timestamp = int(round(time.time() * 1000))
-    if (PRINT_PING):
+    if PRINT_PING:
         print(ping_time)
 
     # Send data to cloudwatch
