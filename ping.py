@@ -10,6 +10,7 @@ import platform
 import re
 import sys
 import os
+import logging
 
 import boto3
 from dotenv import load_dotenv
@@ -50,10 +51,11 @@ def writeToLocalLogs(ping):
 # Get the sequence token to upload to CloudWatch
 sequenceToken = getSequenceToken()
 
-print("Checking ping every second and sending it to CloudWatch")
+log = logging.getLogger()
+log.info("Checking ping every second and sending it to CloudWatch")
 
 if PRINT_PING:
-        print("Printing ping (in ms)")
+        log.info("Printing ping (in ms)")
 
 while True:
     # Get ping in ms
@@ -61,7 +63,7 @@ while True:
     writeToLocalLogs(ping_time)
     timestamp = int(round(time.time() * 1000))
     if PRINT_PING:
-        print(ping_time)
+        log.info(ping_time)
 
     # Send data to cloudwatch
     try:
@@ -78,7 +80,7 @@ while True:
         )
         sequenceToken = response['nextSequenceToken']
     except Exception as e:
-        print("Warning: could not post to CloudWatch. Will naively try with a new token...")
+        log.warn("Warning: could not post to CloudWatch. Will naively try with a new token...")
         message = e.response['Error']['Message']
         index = message.find('is:')
         sequenceToken = message[index+4:]
