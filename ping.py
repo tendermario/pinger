@@ -1,4 +1,8 @@
-#!/Users/marioviens/coding/projects/pinger/.venv/bin/python
+#!/bin/sh
+
+# If your virtual env isn't here, update this or make it be here
+"exec" "`dirname $0`/.venv/bin/python" "$0" "$0"
+
 
 import time
 import subprocess
